@@ -1,5 +1,8 @@
 package main.java.com.myjparepo.contant;
 
+/**
+ * The RepositoryContants Class
+ */
 public class RepositoryContants {
 
 	private RepositoryContants() {

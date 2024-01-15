@@ -24,20 +24,38 @@ import main.java.com.myjparepo.repo.JpaRepository;
 import main.java.com.myjparepo.util.MapperUtil;
 import main.java.com.myjparepo.util.StringUtil;
 
+/**
+ * The Class JpaRepositoryImpl.
+ *
+ * @param <T> the generic type
+ * @param <I> the generic type
+ */
 public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 
+	/** The jdbc connector. */
 	private JdbcConnector jdbcConnector;
 
+	/** The table name. */
 	private String tableName;
 
+	/** The primary key field name. */
 	private String primaryKeyFieldName;
 
+	/** The get primary key method. */
 	private String getPrimaryKeyMethod;
 
+	/** The clazz. */
 	private Class<T> clazz;
 
+	/** The pirmary key clazz. */
 	private Class<I> pirmaryKeyClazz;
 
+	/**
+	 * Instantiates a new jpa repository impl.
+	 *
+	 * @param clazz the clazz
+	 * @param pirmaryKeyClazz the pirmary key clazz
+	 */
 	public JpaRepositoryImpl(Class<T> clazz, Class<I> pirmaryKeyClazz) {
 		try {
 			jdbcConnector = new JdbcConnector();
@@ -52,6 +70,13 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		}
 	}
 
+	/**
+	 * Pk field name.
+	 *
+	 * @param clazz the clazz
+	 * @return the string
+	 * @throws JpaRepositoryException the jpa repository exception
+	 */
 	private String pkFieldName(Class<T> clazz) throws JpaRepositoryException {
 		for (Field field : clazz.getDeclaredFields()) {
 			if (field.isAnnotationPresent(Id.class)) {
@@ -61,6 +86,9 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		throw new JpaRepositoryException("No Id field found");
 	}
 
+	/**
+	 * Construct table name.
+	 */
 	private void constructTableName() {
 		if (this.clazz.isAnnotationPresent(Entity.class)) {
 			Entity entity = clazz.getAnnotation(Entity.class);
@@ -73,10 +101,19 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		}
 	}
 
+	/**
+	 * Construct primary key method.
+	 *
+	 * @param pirmaryKeyClazz the pirmary key clazz
+	 * @return the string
+	 */
 	private String constructPrimaryKeyMethod(Class<I> pirmaryKeyClazz) {
 		return "get" + StringUtil.toUppercase(MapperUtil.getColumnType(pirmaryKeyClazz.getSimpleName()), 0, 1);
 	}
 
+	/**
+	 * Creates the table.
+	 */
 	private void createTable() {
 		Set<TableColumn> columnSet = new HashSet<>();
 		for (Field field : clazz.getDeclaredFields()) {
@@ -134,6 +171,12 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @param t the t
+	 * @return the t
+	 */
 	@Override
 	public T save(T t) {
 		try {
@@ -158,6 +201,12 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		return t;
 	}
 
+	/**
+	 * Save all.
+	 *
+	 * @param list the list
+	 * @return the iterable
+	 */
 	@Override
 	public Iterable<T> saveAll(Iterable<T> list) {
 		try {
@@ -190,6 +239,12 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		return list;
 	}
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the optional
+	 */
 	@Override
 	public Optional<T> findById(I id) {
 		Optional<T> result = Optional.empty();
@@ -213,6 +268,13 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		return result;
 	}
 
+	/**
+	 * Find by.
+	 *
+	 * @param columnName the column name
+	 * @param columnData the column data
+	 * @return the iterable
+	 */
 	@Override
 	public Iterable<T> findBy(String columnName, Object columnData) {
 		List<T> list = new ArrayList<>();
@@ -235,6 +297,11 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		return list;
 	}
 
+	/**
+	 * Find all.
+	 *
+	 * @return the list
+	 */
 	@Override
 	public List<T> findAll() {
 		List<T> list = new ArrayList<>();
@@ -252,6 +319,11 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		return list;
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param t the t
+	 */
 	@Override
 	public void delete(T t) {
 		try {
@@ -269,6 +341,9 @@ public class JpaRepositoryImpl<T, I> implements JpaRepository<T, I> {
 		}
 	}
 
+	/**
+	 * Delete all.
+	 */
 	@Override
 	public void deleteAll() {
 		try {

@@ -1,16 +1,23 @@
-package main.java.com.myjparepo.config;
+package main.java.com.myjparepo.util;
 
 import java.io.FileInputStream;
 import java.util.Properties;
 
 import main.java.com.myjparepo.contant.RepositoryContants;
 
-public class PropertyConfig {
+/**
+ * The Class PropertyUtil is used to read and get property from loaded property files.
+ */
+public class PropertyUtil {
 
-	private PropertyConfig() {
+	/**
+	 * Instantiates a new property util.
+	 */
+	private PropertyUtil() {
 
 	}
 
+	/** The application properties. */
 	private static Properties applicationProperties = null;
 
 	static {
@@ -23,6 +30,12 @@ public class PropertyConfig {
 		}
 	}
 
+	/**
+	 * Gets the application property.
+	 *
+	 * @param key the key
+	 * @return the application property
+	 */
 	public static String getApplicationProperty(String key) {
 		return applicationProperties.getProperty(key);
 	}

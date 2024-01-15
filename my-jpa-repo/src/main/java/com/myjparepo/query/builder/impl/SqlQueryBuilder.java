@@ -6,6 +6,9 @@ import main.java.com.myjparepo.query.model.ObjectEntityModel;
 import main.java.com.myjparepo.query.model.TableColumn;
 import main.java.com.myjparepo.query.model.WhereOperator;
 
+/**
+ * The Class SqlQueryBuilder.
+ */
 public class SqlQueryBuilder implements QueryBuilder {
 
 	private StringBuilder queryBuilder;
